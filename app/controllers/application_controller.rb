@@ -1,7 +1,7 @@
+# application controller
 class ApplicationController < ActionController::Base
-  include Keycloak
   protect_from_forgery with: :exception
-  before_action :user_signed_in?, except: [:new, :create]
+  before_action :user_signed_in?
 
   def initialize
     Keycloak.proc_cookie_token = lambda do
@@ -13,12 +13,7 @@ class ApplicationController < ActionController::Base
 
   def user_signed_in?
     access = Keycloak::Client.user_signed_in? || keycloak_controller? || new_use?
-    if access 
-      redirect_to root_path 
-    else
-      redirect_to sessions_new_path
-    end 
-    # redirect_to sessions_new_path unless access
+    redirect_to root_path unless access
   end
 
   private

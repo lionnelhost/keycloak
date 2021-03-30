@@ -1,4 +1,5 @@
 # user controller
+require 'rest-client'
 class UsersController < ApplicationController
     def new
         @user = User.new
@@ -9,12 +10,12 @@ class UsersController < ApplicationController
         flash[:success] = 'User created successfully'
         redirect_to root_path
       }
-  
-      Keycloak::Internal.create_simple_user(params[:email],
-                                            params[:password],
-                                            params[:email],
-                                            params[:first_name],
-                                            params[:last_name],
+
+      Keycloak::Internal.create_simple_user(params[:user][:email],
+                                            params[:user][:password],
+                                            params[:user][:email],
+                                            params[:user][:first_name],
+                                            params[:user][:last_name],
                                             [],
                                             ['Public'],
                                             after_insert)

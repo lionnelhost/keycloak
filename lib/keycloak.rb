@@ -10,10 +10,6 @@ def isempty?(value)
 end
 
 module Keycloak
-    def self.hello 
-        puts "Hello world!"
-    end
-
   KEYCLOAK_JSON_FILE = 'config/keycloak.json'.freeze
 
   class << self
@@ -159,8 +155,6 @@ module Keycloak
       token = self.token['access_token'] if isempty?(token)
       token_introspection_endpoint = @configuration['introspection_endpoint'] if isempty?(token_introspection_endpoint)
 
-      puts "========> #{ @configuration['introspection_endpoint']  }"
-
       payload = { 'token' => token }
 
       authorization = Base64.strict_encode64("#{client_id}:#{secret}")
@@ -169,8 +163,11 @@ module Keycloak
       header = { 'Content-Type' => 'application/x-www-form-urlencoded',
                  'authorization' => authorization }
 
+                 puts " token ===> #{ token }"
+
       _request = -> do
         RestClient.post(token_introspection_endpoint, payload, header){|response, request, result|
+          puts " request ===> #{ token_introspection_endpoint  }"
           case response.code
           when 200..399
             response.body
@@ -242,6 +239,7 @@ module Keycloak
 
       header = { 'Content-Type' => 'application/x-www-form-urlencoded' }
 
+
       _request = -> do
         RestClient.post(userinfo_endpoint, payload, header){ |response, request, result|
           case response.code
@@ -287,7 +285,7 @@ module Keycloak
       client_id = @client_id if isempty?(client_id)
       secret = @secret if isempty?(secret)
       token_introspection_endpoint = @configuration['token_introspection_endpoint'] if isempty?(token_introspection_endpoint)
-
+ 
       begin
         JSON(get_token_introspection(access_token, client_id, secret, token_introspection_endpoint))['active'] === true
       rescue => e
@@ -398,7 +396,6 @@ module Keycloak
 
         _request = -> do
           RestClient.post(@configuration['token_endpoint'], payload, header){|response, request, result|
-            puts " response #{ response }"
             case response.code
             when 200
               response.body
@@ -764,18 +761,26 @@ module Keycloak
     end
 
     def self.create_simple_user(username, password, email, first_name, last_name, realm_roles_names, client_roles_names, proc = nil, client_id = '', secret = '')
+      
+      puts " username ===> #{ username }"
+      puts " username ===> #{ password }"
+      puts " username ===> #{ email }"
+      puts " username ===> #{ first_name }"
+      puts " username ===> #{ last_name }"
+      
       client_id = Keycloak::Client.client_id if isempty?(client_id)
       secret = Keycloak::Client.secret if isempty?(secret)
 
-      begin
-        username.downcase!
-        user = get_user_info(username, true, client_id, secret)
-        new_user = false
-      rescue Keycloak::UserLoginNotFound
-        new_user = true
-      rescue
-        raise
-      end
+      # begin
+      #   username.downcase!
+      #   user = get_user_info(username, true, client_id, secret)
+      #   puts " users =========> #{ user }"
+      #   new_user = false
+      # # rescue Keycloak::UserLoginNotFound
+        new_user = true 
+      # rescue
+      #   raise
+      # end
 
       proc_default = lambda { |token|
         user_representation = { username: username,

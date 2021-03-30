@@ -27,10 +27,10 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
-# gem 'keycloak', '~> 3.2.1'
+gem 'keycloak', '~> 3.2.1'
 # gem 'devise'
 gem 'rest-client'
-gem 'jwt'
+gem 'jwt', '>= 2.2.1'
 gem 'uri'
 gem 'base64'
 gem 'simple_form'

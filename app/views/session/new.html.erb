@@ -7,7 +7,7 @@
           <div class="row">
             <div class="col-md-9 col-lg-8 mx-auto">
               <h3 class="login-heading mb-4">Welcome back!</h3>
-              <%= simple_form_for(@user, url: sessions_signin_path, method: :post, data: {toggle:"validator"} ) do |f| %>
+              <%= simple_form_for(@user, url: session_signin_path, method: :post, data: {toggle:"validator"} ) do |f| %>
                 <fieldset>
                   <div class="form-group">
                     <%= f.input :email, autofocus: true, class:"form-control", id:"email", name:"email", placeholder:"Email", required: "true" %>

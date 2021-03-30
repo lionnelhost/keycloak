@@ -1,10 +1,13 @@
 {
   "realm": "yeewu",
   "auth-server-url": "http://localhost:9080/auth",
-  "ssl-required": "external",
+  "ssl-required": "none",
   "resource": "marketplace",
+  "verify-token-audience": true,
   "credentials": {
     "secret": "cc6b2aee-df73-41d8-be3d-ec7b62aa8523"
   },
-  "confidential-port": 0
+  "use-resource-role-mappings": true,
+  "confidential-port": 0,
+  "policy-enforcer": {}
 }

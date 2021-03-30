@@ -11,7 +11,7 @@ module Keyclok
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
     # config.force_ssl = true
-    config.autoload_paths += %W( lib/ )
+    # config.autoload_paths += %W( lib/ )
 
     # Configuration for the application, engines, and railties goes here.
     #
